@@ -25,5 +25,6 @@ logFile.withInputStream {InputStream stream ->
 
 
 logFile.withInputStream {InputStream stream ->
-  new HistogramVisualizer(EVENT2, HistogramVisualizer.HOUR_OF_DAY_BINS).visualize(stream)
+  def visualizer = new HistogramVisualizer(EVENT2, HistogramVisualizer.HOUR_OF_DAY_BINS)
+  visualizer.visualize(stream)
 }
