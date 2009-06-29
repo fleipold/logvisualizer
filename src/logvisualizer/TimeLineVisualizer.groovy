@@ -1,7 +1,7 @@
 package logvisualizer
 
 public class TimeLineVisualizer {
-  def categories;
+  def List categories;
 
 
   def filename(int index) {
@@ -56,8 +56,8 @@ set timefmt "%d/%m/%y-%H:%M:%S"
 
 
     input.eachLine {line ->
-      categories.eachWithIndex({Category cat, index ->
-        if (cat.applies(line)) {
+      categories.eachWithIndex({Event cat, index ->
+        if (cat.appliesTo(line)) {
           outfiles[index].write("${cat.getTimesStamp(line)} ${index}\n");
         }
       })

@@ -1,24 +1,29 @@
-import logvisualizer.RegExCategory
-import logvisualizer.Category
+import logvisualizer.RegExEvent
+import logvisualizer.Event
 import logvisualizer.TimeLineVisualizer
 import logvisualizer.HistogramVisualizer
+import logvisualizer.RegExEvent
 
 
 
 
-RegExCategory REQUEST = new RegExCategory("Request", ~/FINISHED 'Persist application form'/)
-
-def categories = [
-        new RegExCategory("Error", ~/ERROR 1026/),
-        REQUEST,
-        new RegExCategory("Success", ~/FINISHED 'AUTOMATED_ACCOUNT_CREATION'/)
-
-]
-
-/*new TimeLineVisualizer(System.in)
-        .visualize()
-  */
+Event EVENT1 = new RegExEvent("Event 1", ~/Event 1/)
+Event EVENT2 = new RegExEvent("Event 2", ~/Event 2/)
+Event ERROR = new RegExEvent("Error", ~/ERROR/)
 
 
+def logFile = new File("test.log");
 
-new HistogramVisualizer(REQUEST, HistogramVisualizer.HOUR_OF_DAY_BINS).visualize(System.in)
+logFile.withInputStream {InputStream stream ->
+  def visualizer = new TimeLineVisualizer([
+          EVENT1,
+          EVENT2,
+          ERROR
+  ]);
+  visualizer.visualize(stream)
+}
+
+
+logFile.withInputStream {InputStream stream ->
+  new HistogramVisualizer(EVENT2, HistogramVisualizer.HOUR_OF_DAY_BINS).visualize(stream)
+}

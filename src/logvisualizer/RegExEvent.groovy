@@ -4,8 +4,7 @@ import java.util.regex.Pattern
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
-class RegExCategory implements Category {
-
+class RegExEvent implements Event {
 
   String label;
   Pattern regex;
@@ -13,12 +12,12 @@ class RegExCategory implements Category {
   static DateFormat df = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss");
                                     //%d/%m/%y-%H:%M:%S
 
-  def RegExCategory(label, regex) {
+  def RegExEvent(String label, Pattern regex) {
     this.label = label;
     this.regex = regex;
   }
 
-  public boolean applies(String line) {
+  public boolean appliesTo(String line) {
     return regex.matcher(line).find();
   }
 

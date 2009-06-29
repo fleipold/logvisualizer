@@ -1,0 +1,3 @@
+go.sh runs the example provided.
+
+note that it relies on gnuplot and groovy being on path!

@@ -38,16 +38,14 @@ class HourOfDayBin implements TimeBin {
 public class HistogramVisualizer {
 
 
-  logvisualizer.Category category
+  logvisualizer.Event category
   java.util.List timebins
 
   static List HOUR_OF_DAY_BINS = (0..23).collect({hour -> return new HourOfDayBin(hour) });
-  
-
-
+ 
 
   // currently we only support a single category...
-  def HistogramVisualizer(Category category, List timebins) {
+  def HistogramVisualizer(Event category, List timebins) {
     this.category = category;
     this.timebins = timebins;
 
@@ -60,12 +58,10 @@ public class HistogramVisualizer {
 
     input.eachLine {String line ->
 
-      if (category.applies(line)){
+      if (category.appliesTo(line)){
         sum++;
         timebins.each {
          TimeBin bin ->
-          println(category.parseTimeStamp(line))
-
             if(bin.isInBin(category.parseTimeStamp(line))){
               counters[bin]=counters[bin]+1
             }
@@ -74,8 +70,6 @@ public class HistogramVisualizer {
 
 
     }
-    println("Sum: ${sum}")
-    print (counters);
     new File("histogram.dat").withWriter { Writer writer ->
       timebins.sort().each{
         TimeBin bin->
@@ -94,10 +88,6 @@ plot "histogram.dat" using 1:xtic(2)
 
     "gnuplot histogram.plt".execute()
 
-  }
-
-  public static void main(String[] args) {
-    print("Hello!")
   }
 
 }

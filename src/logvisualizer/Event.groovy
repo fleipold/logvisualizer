@@ -1,9 +1,10 @@
 package logvisualizer
 
-public interface Category {
+public interface Event {
+
   String getLabel()
 
-  boolean applies(String line)
+  boolean appliesTo(String line)
 
   String getTimesStamp(String line)
 
